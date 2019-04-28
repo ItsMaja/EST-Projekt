@@ -3,21 +3,16 @@ package Programm;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import Programm.AngebotsPosten.Art;
-
-import java.util.ArrayList;
 
 /**
  * @author Simon Borst
  * @version 1
  */
 public class Angebot {
-	static Berichtswesen berichtswesen = new Berichtswesen();
-	static Speicher speicher = new Speicher();
 	
 	public enum Status {
 		IN_BEARBEITUNG, ABGESCHLOSSEN, ABGELEHNT
@@ -26,25 +21,22 @@ public class Angebot {
 	//Im Konstruktor
 	private Kunde kunde;
 	private final Date erstellDatum;
-	private int angebotNummer = 0;
+	private int angebotsNummer;
+	private static int naechsteAngebotsNummer = 20000;
 	private String betreff;
 	private Status status;
 	
 	//Seperat
-	private Map<Date,String> protokoll = new TreeMap();
-	private LinkedList<AngebotsPosten> angebotsPostenListe = new LinkedList();
+	private Map<Date,String> protokoll = new TreeMap<>();
+	private LinkedList<AngebotsPosten> angebotsPostenListe = new LinkedList<>();
 			
 	public Angebot(final Kunde kunde, String betreff) {
 		this.kunde = kunde;
 		this.betreff = betreff;
-		this.status = status.IN_BEARBEITUNG;
+		this.status = Status.IN_BEARBEITUNG;
 		erstellDatum = new Date();
-		angebotNummer = angebotNummer + 1;
-		/*
-		if (!speicher.containsKunde(kunde.getName())) {
-			speicher.kundeAufnehmen(kunde);
-		}
-		*/
+		angebotsNummer = naechsteAngebotsNummer;
+		naechsteAngebotsNummer++;
 	}
 	
 	public void setBetreff(String betreff) {
@@ -132,27 +124,22 @@ public class Angebot {
 		}
 	}
 	
-	public void ausdrucken() throws Exception {
-		berichtswesen.angebotHinzufuegen(this); //angebot
+	void ausdrucken() {
 		this.status = Status.ABGESCHLOSSEN;
-		speicher.angebotSpeichern(this); //angebot
-		System.out.println("Ausdrucken");
+		Speicher.angebotSpeichern(this);
+		System.out.println("Ausdrucken erfolgt");
 	}	
 	
 	public Map getProtokoll() {
 		return protokoll;
 	}
 	
-	public int getKundenNummer() {
+	int getKundenNummer() {
 		return this.kunde.getKundenNummer();
 	}
 	
 	public Date getErstellDatum() {
 		return erstellDatum;
-	}
-	
-	public Programm.Speicher getSpeicher() {
-		return Angebot.speicher;
 	}
 	
 	/**
@@ -200,6 +187,7 @@ public class Angebot {
 	 
 		return betreff + " f�r " + kunde.getName() +
 				"\nKundennummer: " + kunde.getKundenNummer() + 
+				"\nAngebotsnummer: " + angebotsNummer +
 				"\nAdresse/Postfach: " + kunde.getStrasse() + " / " + kunde.getPostFach() +
 				"\nPLZ/Ort: " + kunde.getPLZ() + " / " + kunde.getOrt() + 
 				"\nMaterial: " + material +

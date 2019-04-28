@@ -10,14 +10,18 @@ import java.util.NoSuchElementException;
  */
 public class Speicher {
 
-	private List<Angebot> angebote = new LinkedList<>();
-	private List<Kunde> kunden = new LinkedList<>();
+	private static List<Angebot> angebote = new LinkedList<>();
+	private static List<Kunde> kunden = new LinkedList<>();
 
-	void angebotSpeichern(Angebot angebot) {
+	private Speicher() {
+
+	}
+
+	static void angebotSpeichern(Angebot angebot) {
 			angebote.add(angebot);
 	}
 	
-	void kundeAufnehmen(Kunde kunde) {
+	static void kundeSpeichern(Kunde kunde) {
 		kunden.add(kunde);
 	}
 
@@ -40,10 +44,14 @@ public class Speicher {
 	 * @throws NoSuchElementException If the customer does not exist, throw an exception
 	 * @author Maja Wandura
 	 */
-	Kunde getCustomerbyName(String name) throws NoSuchElementException {
+	static Kunde getCustomerbyName(String name) throws NoSuchElementException {
 		return kunden.stream()
 				.filter(customer -> customer.getName().equals(name))
 				.findFirst()
 				.orElseThrow(NoSuchElementException::new);
+	}
+
+	static List<Angebot> getAngebote() {
+		return angebote;
 	}
 }
