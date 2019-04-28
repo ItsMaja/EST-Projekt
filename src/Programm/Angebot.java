@@ -1,5 +1,6 @@
 package Programm;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class Angebot {
 	
 	//Im Konstruktor
 	private Kunde kunde;
-	private final Date erstellDatum;
+	private final LocalDate erstellDatum;
 	private int angebotsNummer;
 	private static int naechsteAngebotsNummer = 20000;
 	private String betreff;
@@ -34,7 +35,7 @@ public class Angebot {
 		this.kunde = kunde;
 		this.betreff = betreff;
 		this.status = Status.IN_BEARBEITUNG;
-		erstellDatum = new Date();
+		erstellDatum = LocalDate.now();
 		angebotsNummer = naechsteAngebotsNummer;
 		naechsteAngebotsNummer++;
 	}
@@ -138,7 +139,7 @@ public class Angebot {
 		return this.kunde.getKundenNummer();
 	}
 	
-	public Date getErstellDatum() {
+	public LocalDate getErstellDatum() {
 		return erstellDatum;
 	}
 	
