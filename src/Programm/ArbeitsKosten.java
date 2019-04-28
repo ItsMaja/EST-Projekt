@@ -3,7 +3,7 @@ package Programm;
 public class ArbeitsKosten extends AngebotsPosten {
 
 	private double stundenAnzahl;
-	private double einzelPreis;
+	private double einzelPreis; 
 	
 	public ArbeitsKosten(String angebotsPostenName, double stundenAnzahl, double einzelPreis) {
 		super(angebotsPostenName, stundenAnzahl * einzelPreis, Art.Arbeitskosten);
@@ -35,7 +35,7 @@ public class ArbeitsKosten extends AngebotsPosten {
 	 */
 	@Override
 	public String toString() {
-		return stundenAnzahl + " Stunden zu je " + einzelPreis + "€  => Gesamtkosten: " + stundenAnzahl*einzelPreis;
+		return stundenAnzahl + " Stunden zu je " + einzelPreis + "ï¿½  => Gesamtkosten: " + stundenAnzahl*einzelPreis;
 	}
 
 }
