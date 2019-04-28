@@ -1,7 +1,6 @@
 package Programm;
 
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public abstract class Test {
 
@@ -19,15 +18,15 @@ public abstract class Test {
 		        Kunde phillips = new Kunde("Phillips","Teststadt","Testecke",4, 76,87866);
 		        Kunde daimler = new Kunde("Daimler","Teststadt","Testecke", 5 ,745,87866);
 
-		        Angebot angebot1 = new Angebot(siemens,"Schranktür");
+		        Angebot angebot1 = new Angebot(siemens,"Schranktï¿½r");
 		        Angebot angebot2 = new Angebot(bimbo,"Tisch mit vier Ecken");
-		        Angebot angebot3 = new Angebot(phillips,"Küchentheke");
+		        Angebot angebot3 = new Angebot(phillips,"Kï¿½chentheke");
 		        Angebot angebot4 = new Angebot(daimler,"Werkbank");
 
-		        database.bestandsKundeAufnehmen(siemens);
-		        database.bestandsKundeAufnehmen(bimbo);
-		        database.bestandsKundeAufnehmen(phillips);
-		        database.bestandsKundeAufnehmen(daimler);
+		        database.kundeAufnehmen(siemens);
+		        database.kundeAufnehmen(bimbo);
+		        database.kundeAufnehmen(phillips);
+		        database.kundeAufnehmen(daimler);
 		        database.angebotSpeichern(angebot1);
 		        database.angebotSpeichern(angebot2);
 		        database.angebotSpeichern(angebot3);
@@ -42,12 +41,12 @@ public abstract class Test {
 		        try {
 		            bosch = database.getCustomerbyName(customerName);
 		        } catch (NoSuchElementException e) {
-		            bosch = new Kunde("Bosch", "Teststadt", "Teststraße", 6, 45, 324324);
+		            bosch = new Kunde("Bosch", "Teststadt", "Teststraï¿½e", 6, 45, 324324);
 		        }
 
 		        // Angebot wird erstellt
 
-		        String betreff = "Neue Türen";
+		        String betreff = "Neue Tï¿½ren";
 		        Angebot newOffer = new Angebot(bosch, betreff);
 
 		        // Materialposten erstellen
@@ -73,7 +72,7 @@ public abstract class Test {
 
 		        database.angebotSpeichern(secondOffer);
 
-		        // Zweites Angebot abschließen
+		        // Zweites Angebot abschlieï¿½en
 		        try {
 					secondOffer.ausdrucken();
 				} catch (Exception e) {

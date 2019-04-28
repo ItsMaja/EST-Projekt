@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * @version 1
  */
 public class Angebot {
-
 	static Berichtswesen berichtswesen = new Berichtswesen();
 	static Speicher speicher = new Speicher();
 	
@@ -43,7 +42,7 @@ public class Angebot {
 		angebotNummer = angebotNummer + 1;
 		/*
 		if (!speicher.containsKunde(kunde.getName())) {
-			speicher.bestandsKundeAufnehmen(kunde);
+			speicher.kundeAufnehmen(kunde);
 		}
 		*/
 	}
@@ -51,7 +50,7 @@ public class Angebot {
 	public void setBetreff(String betreff) {
 		Date datum = new Date();
 		this.betreff = betreff;
-		protokoll.put(datum, "Betreff wurde geändert zu: " + betreff);
+		protokoll.put(datum, "Betreff wurde geï¿½ndert zu: " + betreff);
 	}
 	
 	public AngebotsPosten angebotsPostenErstellen (MaterialKosten materialKosten) {
@@ -75,7 +74,7 @@ public class Angebot {
 				angebotsPostenListe.remove(materialKosten);
 				protokoll.put(datum,"Der Einzelposten: " + materialKosten.getAngebotsPostenName() + "wurde entfernt");
 			} else {
-				System.out.println("Eine Änderung ist Leider nicht mehr möglich!");
+				System.out.println("Eine ï¿½nderung ist Leider nicht mehr moeglich!");
 			}
 		}
 	}
@@ -89,9 +88,9 @@ public class Angebot {
 			if (this.status.equals(status.IN_BEARBEITUNG)) {
 			Date datum = new Date();
 			angebotsPostenListe.remove(arbeitsKosten);
-			protokoll.put(datum, "Die Arbeitszeit " + arbeitsKosten.getAngebotsPostenName() + " mit dem zugehörigen Stundenlohn: " + arbeitsKosten.getAngebotsPostenPreis() + " wurde entfernt");
+			protokoll.put(datum, "Die Arbeitszeit " + arbeitsKosten.getAngebotsPostenName() + " mit dem zugehÃ¶rigen Stundenlohn: " + arbeitsKosten.getAngebotsPostenPreis() + " wurde entfernt");
 			} else {
-				System.out.println("Eine Änderung ist Leider nicht mehr möglich!");
+				System.out.println("Eine Ã„nderung ist leider nicht mehr mÃ¶glich!");
 			}
 		}
 	}
@@ -105,11 +104,11 @@ public class Angebot {
 			Date datum = new Date();
 			String oldNAme = materialKosten.getAngebotsPostenName();
 			double oldPreis = materialKosten.getAngebotsPostenPreis();
-			protokoll.put(datum, "In dem EinzelPosten: " + materialKosten.getAngebotsPostenName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " geändert"); 
+			protokoll.put(datum, "In dem EinzelPosten: " + materialKosten.getAngebotsPostenName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " geï¿½ndert"); 
 			materialKosten.setAngebotsPostenName(name);
 			materialKosten.setAngebotsPostenPreis(preis);
 		} else {
-			System.out.println("Eine Änderung ist Leider nicht mehr möglich!");
+			System.out.println("Eine ï¿½nderung ist Leider nicht mehr mï¿½glich!");
 		}
 	}
 	
@@ -119,17 +118,17 @@ public class Angebot {
 		} else if (stundenAnzahl<0) {
 			throw new IllegalArgumentException();
 		} else if (einzelPreis != 80 || einzelPreis != 150) {
-			throw new IllegalArgumentException("Der Einzelpreis darf lediglich nur 150,00€ oder 80,00€ betragen");
+			throw new IllegalArgumentException("Der Einzelpreis darf lediglich nur 150,00â‚¬ oder 80,00â‚¬ betragen");
 		} else if(this.status.equals(status.IN_BEARBEITUNG)) {
 			Date datum = new Date();
 			double oldStundenAnzahl = arbeitsKosten.getStundenAnzahl();
 			double oldEinzelPreis = arbeitsKosten.getEinzelPreis();
-			protokoll.put(datum,"Die Arbeitszeit wurde von "+ oldStundenAnzahl + "zu " + stundenAnzahl + " geändert. Der Einzelpreis wurde von " + oldEinzelPreis + " zu " + einzelPreis + " geändert. Neuer Postenpreis beträgt: "+ einzelPreis * stundenAnzahl);
+			protokoll.put(datum,"Die Arbeitszeit wurde von "+ oldStundenAnzahl + "zu " + stundenAnzahl + " geÃ¤ndert. Der Einzelpreis wurde von " + oldEinzelPreis + " zu " + einzelPreis + " geï¿½ndert. Neuer Postenpreis betrï¿½gt: "+ einzelPreis * stundenAnzahl);
 			arbeitsKosten.setStundenAnzahl(stundenAnzahl);
 			arbeitsKosten.setEinzelPreis(einzelPreis);
 			arbeitsKosten.setAngebotsPostenPreis(einzelPreis * stundenAnzahl);
 		} else {
-			System.out.println("Eine Änderung ist Leider nicht mehr möglich!");
+			System.out.println("Eine ï¿½nderung ist Leider nicht mehr mï¿½glich!");
 		}
 	}
 	
@@ -177,7 +176,7 @@ public class Angebot {
 	 * 
 	 * Bin mir nicht sicher ob das alles zu 100% stimmt.
 	 * 
-	 * Hab es getestet und nichts gefunden aber kann durchaus auch sein, dass ich etwas übersehen habe..
+	 * Hab es getestet und nichts gefunden aber kann durchaus auch sein, dass ich etwas ï¿½bersehen habe..
 	 * 
 	 * Ansonsten hab ich die Methode so angepasst, dass die Konsole ca das gleiche Layout hat wie 
 	 * das Beispiel-Angebot in ILIAS
@@ -199,15 +198,15 @@ public class Angebot {
 				.map(arbeitsKosten -> arbeitsKosten.toString())
 				.collect(Collectors.joining(", "));
 	 
-		return betreff + " für " + kunde.getName() +
+		return betreff + " fï¿½r " + kunde.getName() +
 				"\nKundennummer: " + kunde.getKundenNummer() + 
 				"\nAdresse/Postfach: " + kunde.getStrasse() + " / " + kunde.getPostFach() +
 				"\nPLZ/Ort: " + kunde.getPLZ() + " / " + kunde.getOrt() + 
 				"\nMaterial: " + material +
 				"\nArbeitszeit: " + workTime +
-				"\nSumme: " + getTotalPrice() + "€" +
-				"\nMehrwertsteuer 19%: " + getTotalPrice() * 0.19 + "€" +
-				"\nGesamtpreis: " + ((getTotalPrice() * 0.19) + getTotalPrice()) + "€" +
+				"\nSumme: " + getTotalPrice() + "ï¿½" +
+				"\nMehrwertsteuer 19%: " + getTotalPrice() * 0.19 + "ï¿½" +
+				"\nGesamtpreis: " + ((getTotalPrice() * 0.19) + getTotalPrice()) + "ï¿½" +
 				"\nStatus: " + status + "\n";
 	}
 		
