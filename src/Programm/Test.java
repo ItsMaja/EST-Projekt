@@ -1,5 +1,7 @@
 package Programm;
 
+import com.sun.jndi.ldap.Ber;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -70,19 +72,11 @@ public abstract class Test {
 
 		Speicher.angebotSpeichern(secondOffer);
 
-		// Zweites Angebot abschlie�en
-		try {
-			secondOffer.ausdrucken();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		// Berichte erzeugen
-
 		System.out.println("Bericht:");
-		Berichtswesen.generiereBericht();
+		//Berichtswesen.generiereBericht();
 
+		Berichtswesen.generiereJahresumsatz(2019);
 		        
 	}
 

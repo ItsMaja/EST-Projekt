@@ -39,6 +39,10 @@ public class Angebot {
 		angebotsNummer = naechsteAngebotsNummer;
 		naechsteAngebotsNummer++;
 	}
+
+	public int getAngebotsNummer() {
+		return angebotsNummer;
+	}
 	
 	public void setBetreff(String betreff) {
 		Date datum = new Date();
@@ -128,7 +132,7 @@ public class Angebot {
 	void ausdrucken() {
 		this.status = Status.ABGESCHLOSSEN;
 		Speicher.angebotSpeichern(this);
-		System.out.println("Ausdrucken erfolgt");
+		System.out.println("Ausdrucken von Angebot + " + angebotsNummer + " erfolgt");
 	}	
 	
 	public Map getProtokoll() {
