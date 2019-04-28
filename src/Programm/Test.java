@@ -1,8 +1,10 @@
 package Programm;
 
-import com.sun.jndi.ldap.Ber;
+import Programm.AuthenticationSystem.Role;
 
+import javax.naming.AuthenticationException;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * This class serves as a demonstration to show the basic functionality of the code
@@ -11,6 +13,21 @@ import java.util.NoSuchElementException;
 public abstract class Test {
 
 	public static void main (String[] args) {
+
+		// Login
+		try (Scanner s = new Scanner(System.in)) {
+			System.out.print("Herzlich willkommen! Bitte geben Sie Ihre Rolle ein (0 für kaufmännische Mitarbeiter, " +
+					"1 für die Geschäftsführung)\nRolle (0/1): ");
+			int roleInput = s.nextInt();
+			s.nextLine();
+
+			System.out.print("Passwort: ");
+			String password = s.nextLine();
+
+			Role role = Role.values()[roleInput];
+			boolean status = AuthenticationSystem.validateCredentials(role, password);
+			System.out.println(status ? "Willkommen zurück " + role : "Zugang verweigert");
+		}
 
 		// Init
 		Kunde siemens = new Kunde("Siemens","Teststadt","Testecke" , 2,78,87866);
@@ -73,11 +90,15 @@ public abstract class Test {
 		Speicher.angebotSpeichern(secondOffer);
 
 		// Berichte erzeugen
-		System.out.println("Bericht:");
+		// System.out.println("Bericht:");
 		//Berichtswesen.generiereBericht();
 
-		Berichtswesen.generiereJahresumsatz(2019);
-		        
+		try {
+			Berichtswesen.generiereJahresumsatz(2019);
+		} catch (AuthenticationException e) {
+			System.out.println("Kein Zugriff auf die Jahresumsätze für Mitarbeiter!");
+		}
+
 	}
 
 }

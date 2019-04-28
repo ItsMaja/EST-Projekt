@@ -1,5 +1,6 @@
 package Programm;
 
+import javax.naming.AuthenticationException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -32,7 +33,11 @@ class Berichtswesen {
                 .forEach(System.out::println);
     }
 
-    static void generiereJahresumsatz(int jahr) {
+    static void generiereJahresumsatz(int jahr) throws AuthenticationException {
+	    if (AuthenticationSystem.getUserRole() != AuthenticationSystem.Role.GESCHAEFTSFUEHRUNG) {
+	        throw new AuthenticationException();
+        }
+
         System.out.printf("%-20s %s\n", "Angebotsnummer", "Gesamtpreis");
 
         Speicher.getAngebote().stream()
