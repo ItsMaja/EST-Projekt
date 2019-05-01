@@ -12,6 +12,9 @@
 2. Auf Run klicken
 
 # Commit Changes
+
+# Hinweis: Keinen Fork erstellen! Im Grunde wäre selbst ein Branch unnötig.
+
 1. Rechtsklick auf den Ordner src, -> Team -> Add to Index
 2. Code ändern
 3. Rechtsklicken, Team -> Commit
