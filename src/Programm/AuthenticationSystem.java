@@ -1,5 +1,8 @@
 package Programm;
 
+/**
+ * @author Maja Wandura
+ */
 public class AuthenticationSystem {
 
     public enum Role {

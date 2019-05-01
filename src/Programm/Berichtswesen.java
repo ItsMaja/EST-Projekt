@@ -12,22 +12,31 @@ import java.util.*;
 class Berichtswesen {
 
     /*
-    Beispiel Erzeugung eines künstlichen Datums zum Test:
+    Beispiel Erzeugung eines künstlichen Datums zum DemoClass:
 
     LocalDate date = LocalDate.of(2018, 10, 23);
      */
 	
-	static void generiereBericht() {
+	static void generiereBericht() throws AuthenticationException {
+        if (AuthenticationSystem.getUserRole() != AuthenticationSystem.Role.GESCHAEFTSFUEHRUNG) {
+            throw new AuthenticationException();
+        }
 	    Speicher.getAngebote().forEach(System.out::println);
 	}
 
-    static void generiereBericht(LocalDate from, LocalDate to) {
+    static void generiereBericht(LocalDate from, LocalDate to) throws AuthenticationException {
+        if (AuthenticationSystem.getUserRole() != AuthenticationSystem.Role.GESCHAEFTSFUEHRUNG) {
+            throw new AuthenticationException();
+        }
         Speicher.getAngebote().stream()
                 .filter(angebot -> angebot.getErstellDatum().isAfter(from) && angebot.getErstellDatum().isBefore(to))
                 .forEach(System.out::println);
     }
 
-    static void generiereJahresbericht(int jahr) {
+    static void generiereJahresbericht(int jahr) throws AuthenticationException {
+        if (AuthenticationSystem.getUserRole() != AuthenticationSystem.Role.GESCHAEFTSFUEHRUNG) {
+            throw new AuthenticationException();
+        }
 	    Speicher.getAngebote().stream()
                 .filter(angebot -> angebot.getErstellDatum().getYear() == jahr)
                 .forEach(System.out::println);

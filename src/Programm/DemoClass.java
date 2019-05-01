@@ -1,3 +1,4 @@
+/*
 package Programm;
 
 import Programm.AuthenticationSystem.Role;
@@ -6,11 +7,13 @@ import javax.naming.AuthenticationException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+*/
 /**
  * This class serves as a demonstration to show the basic functionality of the code
  * @author Maja Wandura
- */
-public abstract class Test {
+ *//*
+
+public abstract class DemoClass {
 
 	public static void main (String[] args) {
 
@@ -102,3 +105,4 @@ public abstract class Test {
 	}
 
 }
+*/

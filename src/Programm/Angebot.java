@@ -1,13 +1,8 @@
 package Programm;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import Programm.AngebotsPosten.Art;
 
 /**
  * @author Simon Borst
@@ -29,8 +24,9 @@ public class Angebot {
 	
 	//Seperat
 	private Map<Date,String> protokoll = new TreeMap<>();
-	private LinkedList<AngebotsPosten> angebotsPostenListe = new LinkedList<>();
-			
+	private LinkedList<Posten> postenListe = new LinkedList<>();
+	private LinkedList<ArbeitsPosten> arbeitsPostenListe = new LinkedList<>();
+
 	public Angebot(final Kunde kunde, String betreff) {
 		this.kunde = kunde;
 		this.betreff = betreff;
@@ -47,92 +43,84 @@ public class Angebot {
 	public void setBetreff(String betreff) {
 		Date datum = new Date();
 		this.betreff = betreff;
-		protokoll.put(datum, "Betreff wurde ge�ndert zu: " + betreff);
+		protokoll.put(datum, "Betreff wurde geaendert zu: " + betreff);
 	}
 	
-	public AngebotsPosten angebotsPostenErstellen (MaterialKosten materialKosten) {
-		angebotsPostenListe.add(materialKosten);
-		return materialKosten;
+	public void angebotsPostenErstellen (String materialName, double materialKosten) {
+		postenListe.add(new Posten(materialName, materialKosten));
 	}
 	
-	public AngebotsPosten angebotsPostenErstellen (ArbeitsKosten arbeitsKosten) {
-		angebotsPostenListe.add(arbeitsKosten);
-		return arbeitsKosten;
+	public void angebotsPostenErstellen (String name, double stundenlohn, double stunden) {
+		arbeitsPostenListe.add(new ArbeitsPosten(name, stundenlohn,stunden));
 	}
 	
-	public void angebotsPostenEntfernen(MaterialKosten materialKosten) throws Exception {
-		if (!angebotsPostenListe.contains(materialKosten)) {
-			throw new Exception("Die zu entfernenden Materialkosten wurden bereits entfernt oder existieren nicht!");
-		} else if (materialKosten == null) {
-			throw new NullPointerException();
+	public void postenEntfernen(Posten posten) {
+		if (!postenListe.contains(posten)) {
+			throw new NoSuchElementException("Der zu entfernende Posten wurde bereits entfernt oder existiert nicht!");
 		} else {			
-			if (this.status.equals(status.IN_BEARBEITUNG)) {
+			if (this.status.equals(Status.IN_BEARBEITUNG)) {
 				Date datum = new Date();
-				angebotsPostenListe.remove(materialKosten);
-				protokoll.put(datum,"Der Einzelposten: " + materialKosten.getAngebotsPostenName() + "wurde entfernt");
+				postenListe.remove(posten);
+				protokoll.put(datum, "Der Einzelposten: " + posten.getName() + "wurde entfernt");
 			} else {
-				System.out.println("Eine �nderung ist Leider nicht mehr moeglich!");
+				System.out.println("Eine Aenderung ist leider nicht mehr moeglich!");
 			}
 		}
 	}
-	
-	public void angebotsPostenEntfernen(ArbeitsKosten arbeitsKosten) throws Exception {
-		if (!angebotsPostenListe.contains(arbeitsKosten)) {
-			throw new Exception("Die zu entfernenden Arbeitskosten wurden bereits entfernt oder existieren nicht!");
-		} else if (arbeitsKosten == null) {
-			throw new NullPointerException();
-		} else {	
-			if (this.status.equals(status.IN_BEARBEITUNG)) {
-			Date datum = new Date();
-			angebotsPostenListe.remove(arbeitsKosten);
-			protokoll.put(datum, "Die Arbeitszeit " + arbeitsKosten.getAngebotsPostenName() + " mit dem zugehörigen Stundenlohn: " + arbeitsKosten.getAngebotsPostenPreis() + " wurde entfernt");
+
+	public void arbeitsPostenEntfernen(ArbeitsPosten posten) {
+		if (!arbeitsPostenListe.contains(posten)) {
+			throw new NoSuchElementException("Der zu entfernende Posten wurde bereits entfernt oder existiert nicht!");
+		} else {
+			if (this.status.equals(Status.IN_BEARBEITUNG)) {
+				Date datum = new Date();
+				arbeitsPostenListe.remove(posten);
+				protokoll.put(datum, "Der Einzelposten: " + posten.getName() + "wurde entfernt");
 			} else {
-				System.out.println("Eine Änderung ist leider nicht mehr möglich!");
+				System.out.println("Eine Aenderung ist leider nicht mehr moeglich!");
 			}
 		}
 	}
-	
-	public void materialKostenBearbeiten(String name, double preis, MaterialKosten materialKosten) throws Exception {
+
+	public void materialKostenBearbeiten(String name, double preis, Posten materialKosten) throws IllegalAccessException {
 		if (materialKosten == null) {
 			throw new NullPointerException();
 		} else if (preis<0) {
 			throw new IllegalArgumentException("Der Materialkostenpreis kann nicht negativ sein!");
 		} else if (this.status.equals(status.IN_BEARBEITUNG)) {
 			Date datum = new Date();
-			String oldNAme = materialKosten.getAngebotsPostenName();
-			double oldPreis = materialKosten.getAngebotsPostenPreis();
-			protokoll.put(datum, "In dem EinzelPosten: " + materialKosten.getAngebotsPostenName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " ge�ndert"); 
-			materialKosten.setAngebotsPostenName(name);
-			materialKosten.setAngebotsPostenPreis(preis);
+			String oldNAme = materialKosten.getName();
+			double oldPreis = materialKosten.getPreis();
+			protokoll.put(datum, "In dem EinzelPosten: " + materialKosten.getName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " ge�ndert");
+			materialKosten.setName(name);
+			materialKosten.setPreis(preis);
 		} else {
-			System.out.println("Eine �nderung ist Leider nicht mehr m�glich!");
+			throw new IllegalAccessException("Eine Aenderung ist Leider nicht mehr moeglich!");
 		}
 	}
 	
-	public void arbeitsZeitBearbeiten(double stundenAnzahl,double einzelPreis, ArbeitsKosten arbeitsKosten) throws Exception {
-		if (arbeitsKosten == null) {
+	public void arbeitsZeitBearbeiten(double stunden, double stundenlohn, ArbeitsPosten arbeitsPosten) throws IllegalAccessException {
+		if (arbeitsPosten == null) {
 			throw new NullPointerException();
-		} else if (stundenAnzahl<0) {
+		} else if (stunden<0) {
 			throw new IllegalArgumentException();
-		} else if (einzelPreis != 80 || einzelPreis != 150) {
-			throw new IllegalArgumentException("Der Einzelpreis darf lediglich nur 150,00€ oder 80,00€ betragen");
-		} else if(this.status.equals(status.IN_BEARBEITUNG)) {
+		} else if (this.status.equals(Status.IN_BEARBEITUNG)) {
 			Date datum = new Date();
-			double oldStundenAnzahl = arbeitsKosten.getStundenAnzahl();
-			double oldEinzelPreis = arbeitsKosten.getEinzelPreis();
-			protokoll.put(datum,"Die Arbeitszeit wurde von "+ oldStundenAnzahl + "zu " + stundenAnzahl + " geändert. Der Einzelpreis wurde von " + oldEinzelPreis + " zu " + einzelPreis + " ge�ndert. Neuer Postenpreis betr�gt: "+ einzelPreis * stundenAnzahl);
-			arbeitsKosten.setStundenAnzahl(stundenAnzahl);
-			arbeitsKosten.setEinzelPreis(einzelPreis);
-			arbeitsKosten.setAngebotsPostenPreis(einzelPreis * stundenAnzahl);
+			double oldStundenAnzahl = arbeitsPosten.getStunden();
+			double oldEinzelPreis = arbeitsPosten.getPreis();
+			protokoll.put(datum,"Die Arbeitszeit wurde von "+ oldStundenAnzahl + "zu " + stunden + " geändert. Der Einzelpreis wurde von " + oldEinzelPreis + " zu " + stundenlohn + " ge�ndert. Neuer Postenpreis betr�gt: "+ stundenlohn * stunden);
+			arbeitsPosten.setStunden(stunden);
+			arbeitsPosten.setPreis(stundenlohn);
+			arbeitsPosten.setPreis(stundenlohn * stunden);
 		} else {
-			System.out.println("Eine �nderung ist Leider nicht mehr m�glich!");
+			throw new IllegalAccessException("Eine Aenderung ist Leider nicht mehr moeglich!");
 		}
 	}
 	
 	void ausdrucken() {
 		this.status = Status.ABGESCHLOSSEN;
 		Speicher.angebotSpeichern(this);
-		System.out.println("Ausdrucken von Angebot + " + angebotsNummer + " erfolgt");
+		System.out.println("Ausdrucken von Angebot " + angebotsNummer + " erfolgt");
 	}	
 	
 	public Map getProtokoll() {
@@ -153,15 +141,13 @@ public class Angebot {
 	 * @return total price of the offer
 	 */
 	public double getTotalPrice() {
-		double totalPrice = angebotsPostenListe.stream()
-				.mapToDouble(posten -> posten.getAngebotsPostenPreis())
-				.sum();
-		/*
-		double workTimePrice = .stream()
-				.mapToDouble(posten -> posten.getStundenSatz() * posten.getZeit())
-				.sum();
-		*/
-		return totalPrice;
+		return postenListe.stream()
+				.mapToDouble(posten -> posten.getPreis())
+				.sum()
+				+
+				arbeitsPostenListe.stream()
+						.mapToDouble(posten -> posten.getPreis())
+						.sum();
 	}
 
 	/*
@@ -180,13 +166,11 @@ public class Angebot {
 	 */
 	@Override
 	public String toString() {
-		String material = angebotsPostenListe.stream()
-				.filter(materialKosten -> materialKosten.getArt() == Art.Materialkosten)
+		String einzelPosten = postenListe.stream()
 				.map(materialKosten -> materialKosten.toString())
 				.collect(Collectors.joining(", "));
 		
-		String workTime = angebotsPostenListe.stream()
-				.filter(arbeitsKosten -> arbeitsKosten.getArt() == Art.Arbeitskosten)
+		String arbeitszeitPosten = arbeitsPostenListe.stream()
 				.map(arbeitsKosten -> arbeitsKosten.toString())
 				.collect(Collectors.joining(", "));
 	 
@@ -195,12 +179,28 @@ public class Angebot {
 				"\nAngebotsnummer: " + angebotsNummer +
 				"\nAdresse/Postfach: " + kunde.getStrasse() + " / " + kunde.getPostFach() +
 				"\nPLZ/Ort: " + kunde.getPLZ() + " / " + kunde.getOrt() + 
-				"\nMaterial: " + material +
-				"\nArbeitszeit: " + workTime +
+				"\nMaterial: " + einzelPosten +
+				"\nArbeitszeit: " + arbeitszeitPosten +
 				"\nSumme: " + getTotalPrice() + "�" +
 				"\nMehrwertsteuer 19%: " + getTotalPrice() * 0.19 + "�" +
 				"\nGesamtpreis: " + ((getTotalPrice() * 0.19) + getTotalPrice()) + "�" +
 				"\nStatus: " + status + "\n";
+	}
+
+	public Posten getPostenByName(String name) {
+		return postenListe.stream()
+				.filter(posten -> posten.getName().equals(name))
+				.findFirst()
+				.orElseThrow(NoSuchElementException::new);
+
+	}
+
+	public ArbeitsPosten getArbeitspostenByName(String name) {
+		return arbeitsPostenListe.stream()
+				.filter(posten -> posten.getName().equals(name))
+				.findFirst()
+				.orElseThrow(NoSuchElementException::new);
+
 	}
 		
 }

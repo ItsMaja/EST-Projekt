@@ -33,8 +33,13 @@ public class Speicher {
 		kunden.remove(toDelete);
 	}
 	
-	public boolean containsKunde(int kundenNummer) {
+	public static boolean containsKunde(int kundenNummer) {
 		return kunden.stream().anyMatch(kunde -> kunde.getKundenNummer() == kundenNummer);
+	}
+
+	public static boolean containsAngebot(int angebotsNummmer) {
+		return angebote.stream().anyMatch((angebot -> angebot.getAngebotsNummer() == angebotsNummmer));
+
 	}
 	
 	/**
@@ -53,5 +58,12 @@ public class Speicher {
 
 	static List<Angebot> getAngebote() {
 		return angebote;
+	}
+
+	static Angebot getAngebotByNummer(int nummer) {
+		return angebote.stream()
+				.filter(angebot -> angebot.getAngebotsNummer() == nummer)
+				.findFirst()
+				.orElseThrow(NoSuchElementException::new);
 	}
 }

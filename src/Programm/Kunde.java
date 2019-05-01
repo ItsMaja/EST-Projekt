@@ -17,7 +17,6 @@ public class Kunde {
 	private int plz;
 	private int kundenNummer;
 	
-	
 	Kunde(String name, String ort, String strasse, int postFach, int hausNummer, int plz) {
 		this.kundenNummer = naechsteKundennummer;
 		naechsteKundennummer++;
@@ -27,6 +26,10 @@ public class Kunde {
 		this.postFach = postFach;
 		this.hausNummer = hausNummer;
 		this.plz = plz;
+	}
+
+	public static int getNaechsteKundennummer() {
+		return naechsteKundennummer;
 	}
 	
 	public void setName(String name) {
