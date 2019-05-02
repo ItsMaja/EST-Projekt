@@ -25,7 +25,7 @@ public class Speicher {
 		kunden.add(kunde);
 	}
 
-	public void kundeLoeschen(int kundenNummer) throws NoSuchElementException {
+	public static void kundeLoeschen(int kundenNummer) throws NoSuchElementException {
 		Kunde toDelete = kunden.stream()
 				.filter(kunde -> kunde.getKundenNummer() == kundenNummer)
 				.findFirst()

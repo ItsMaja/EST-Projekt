@@ -20,15 +20,6 @@ public class ArbeitsPosten extends Posten {
         this.setPreis(stunden * stundenlohn);
     }
 
-    public double getStundenlohn() {
-        return stundenlohn;
-    }
-
-    public void setStundenlohn(double stundenlohn) {
-        this.stundenlohn = stundenlohn;
-        this.setPreis(stundenlohn * stunden);
-    }
-
     @Override
     public String toString() {
         return this.getName() + " " + stunden + " x " + stundenlohn + "€: " + this.getPreis() + "€";

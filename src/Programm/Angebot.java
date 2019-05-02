@@ -82,18 +82,18 @@ public class Angebot {
 		}
 	}
 
-	public void materialKostenBearbeiten(String name, double preis, Posten materialKosten) throws IllegalAccessException {
-		if (materialKosten == null) {
+	public void materialKostenBearbeiten(String name, double preis, Posten materialPosten) throws IllegalAccessException {
+		if (materialPosten == null) {
 			throw new NullPointerException();
 		} else if (preis<0) {
 			throw new IllegalArgumentException("Der Materialkostenpreis kann nicht negativ sein!");
 		} else if (this.status.equals(status.IN_BEARBEITUNG)) {
 			Date datum = new Date();
-			String oldNAme = materialKosten.getName();
-			double oldPreis = materialKosten.getPreis();
-			protokoll.put(datum, "In dem EinzelPosten: " + materialKosten.getName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " ge�ndert");
-			materialKosten.setName(name);
-			materialKosten.setPreis(preis);
+			String oldNAme = materialPosten.getName();
+			double oldPreis = materialPosten.getPreis();
+			protokoll.put(datum, "In dem EinzelPosten: " + materialPosten.getName() + " wurden die Angaben Name: " + oldNAme + " und Preis: " +oldPreis + ", zu Name: "+ name + " und Preis: " + preis + " ge�ndert");
+			materialPosten.setName(name);
+			materialPosten.setPreis(preis);
 		} else {
 			throw new IllegalAccessException("Eine Aenderung ist Leider nicht mehr moeglich!");
 		}
@@ -127,13 +127,10 @@ public class Angebot {
 		return protokoll;
 	}
 	
-	int getKundenNummer() {
-		return this.kunde.getKundenNummer();
-	}
-	
 	public LocalDate getErstellDatum() {
 		return erstellDatum;
 	}
+
 	
 	/**
 	 *
@@ -150,16 +147,6 @@ public class Angebot {
 						.sum();
 	}
 
-	/*
-	 * 
-	 * Bin mir nicht sicher ob das alles zu 100% stimmt.
-	 * 
-	 * Hab es getestet und nichts gefunden aber kann durchaus auch sein, dass ich etwas �bersehen habe..
-	 * 
-	 * Ansonsten hab ich die Methode so angepasst, dass die Konsole ca das gleiche Layout hat wie 
-	 * das Beispiel-Angebot in ILIAS
-	 * 
-	 */
 	/**
 	 * @author Maja Wandura
 	 * @return A string representation of the offer

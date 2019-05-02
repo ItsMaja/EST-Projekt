@@ -31,6 +31,14 @@ public class Kunde {
 	public static int getNaechsteKundennummer() {
 		return naechsteKundennummer;
 	}
+
+	public void updateAdress(String strasse,int hausNummer, String ort, int plz, int postFach ) {
+		setStrasse(strasse);
+		setHausNummer(hausNummer);
+		setOrt(ort);
+		setPlz(plz);
+		setPostFach(postFach);
+	}
 	
 	public void setName(String name) {
 		this.name = name;

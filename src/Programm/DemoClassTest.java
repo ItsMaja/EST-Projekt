@@ -103,21 +103,57 @@ class DemoClassTest {
     }
 
     @Test
-    void betreffHinzufuegenSuccesful() {
+    void testAngebotspostenEntfernenSuccesful() {
+        Angebot angebotTest1 = new Angebot(Speicher.getCustomerbyName("Bosch"),"Küchentheke");
+        angebotTest1.angebotsPostenErstellen("Schleifmaschine",150,2.5);
+        ArbeitsPosten test1 = angebotTest1.getArbeitspostenByName("Schleifmaschine");
+        angebotTest1.arbeitsPostenEntfernen(test1);
+
+       assertThrows(NoSuchElementException.class, ()-> angebotTest1.getArbeitspostenByName("Schleimaschine"));
+
+
+
+    }
+
+    @Test
+    void testPostenentfernenSuccesful() {
+        Angebot angebotTest1 = new Angebot(Speicher.getCustomerbyName("Bosch"),"Küchentheke");
+        angebotTest1.angebotsPostenErstellen("Eichenholzbretter",550);
+        Posten test1 = angebotTest1.getPostenByName("Eichenholzbretter");
+        angebotTest1.postenEntfernen(test1);
+
+        assertThrows(NoSuchElementException.class, () ->angebotTest1.getPostenByName("Eichenholzbretter"));
 
     }
     @Test
-    void erstelleAngebotspostenSuccesful() {
+    void testeKundendatenAendern() {
+       Kunde bosch = Speicher.getCustomerbyName("Bosch");
+       bosch.updateAdress("Testweg",9,"Teststadt", 89866, 8);
+       assertEquals(8, bosch.getPostFach());
+       assertEquals("Testweg", bosch.getStrasse());
 
     }
 
     @Test
-    void entferneAngebotspostenFailed() {
+    void testeMaterialkostenBearbeitenFailed() {
+
+        Angebot angebotTest1 = new Angebot(Speicher.getCustomerbyName("Bosch"),"Küchentheke");
+        angebotTest1.angebotsPostenErstellen("Eichenholzbretter",550);
+        Posten test1 = angebotTest1.getPostenByName("Eichenholzbretter");
+
+        assertThrows(IllegalArgumentException.class,
+                () -> angebotTest1.materialKostenBearbeiten("Eichenholzbretter", -1,test1));
+
 
     }
-
     @Test
-    void angebotAusdruckenSuccesful() {
+    void testeKundeLoeschen() {
+        Kunde bosch = Speicher.getCustomerbyName("Bosch");
+        Speicher.kundeLoeschen(bosch.getKundenNummer());
+
+        assertFalse(Speicher.containsKunde(bosch.getKundenNummer()));
+
 
     }
+
 }
